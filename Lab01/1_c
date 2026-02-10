@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+
+int main()
+{
+    printf("Before declaring FORK\n");
+    printf("The value of PID  is : %d\n", getpid());
+    printf("The value of PPID is : %d\n\n", getppid());
+
+    pid_t pid = fork(); // Used to create child process
+
+    if(pid == 0) // Child Process
+    {
+        printf("After declaring FORK (Child Process)\n");
+        printf("Return value of fork() (PID) is zero\n");
+        printf("Child PID  : %d\n", getpid());
+        printf("Parent PID : %d\n", getppid());
+    }
+    else if(pid > 0) // Parent Process
+    {
+        printf("After declaring FORK (Parent Process)\n");
+        printf("Return value of fork() (PID) is greater than zero\n");
+        printf("Parent PID : %d\n", getpid());
+        printf("Parent's Parent PID : %d\n", getppid());
+    }
+    else // Error
+    {
+        printf("Fork failed!\n");
+    }
+
+    return 0;
+}
+
+OUTPUT
+
+~/OS/OS Lab$ gcc Lab1c.c -o Lab1c
+~/OS/OS Lab$ ./Lab1c
+Before declaring FORK
+The value of PID  is : 618
+The value of PPID is : 484
+
+After declaring FORK (Parent Process)
+Return value of fork() (PID) is greater than zero
+Parent PID : 618
+Parent's Parent PID : 484
+After declaring FORK (Child Process)
+Return value of fork() (PID) is zero
+Child PID  : 619
+Parent PID : 618
